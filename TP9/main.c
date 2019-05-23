@@ -13,12 +13,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include "funbits.h"
 
-/*
- * Alex le esta ense;anndo a Marti como usar github
- */
-int main(int argc, char** argv) {
-
-    return (EXIT_SUCCESS);
+int main (void) {
+    PORTS puerto;
+    puerto.D.port = 96;
+    puerto.B.b0 = 1;
+    bitClr(&(puerto.B), 0);
+    printf("%i", puerto.D.port);        
+    return 0;
 }
-
