@@ -6,14 +6,14 @@
 
 #include <stdio.h>
 #include "funbits.h"
+
 enum states {INIT, NEG, TURNON, TURNOFF, QUIT, ERROR};
 
-void simulate(void);
-void turn_on(void);
-void turn_off(void);
-void negate(void);
-void printLeds(void);
-void cleanBuffer(void);
+static void turn_on(void);
+static void turn_off(void);
+static void negate(void);
+static void printLeds(void);
+static void cleanBuffer(void);
 
 void simulate(void){
     char input = '0';
@@ -59,25 +59,25 @@ void simulate(void){
     return;
 }
 
-void turn_on(void){
+static void turn_on(void){
     printf("Turn on!\n");
     return;
 }
 
-void turn_off(void){
+static void turn_off(void){
     printf("Turn off!\n");
     return;
 }
-void negate(void){
+static void negate(void){
     printf("Negate!\n");
     return;
 }
-void printLeds(void){
+static void printLeds(void){
     printf("Print Leds!\n");
     return;
 }
 
-void cleanBuffer(void){
+static void cleanBuffer(void){
     while(getchar() != '\n'){}
     return;
 }

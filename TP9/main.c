@@ -15,14 +15,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "funbits.h"
-
-
+#include "simulador.h"
 
 int main (void) {
-    //puerto.D.port = 0x32;
-
-    bitClr('B', 5);
-    bitSet('A' , 15);
-      
+    simulate();
     return 0;
 }
