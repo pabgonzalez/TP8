@@ -20,10 +20,9 @@
 
 int main (void) {
     //puerto.D.port = 0x32;
-    puerto.B.byte = 32;
-    puerto.A.byte = 0;
-    bitClr(&(puerto.B), 5);
-    bitSet(&(puerto.A) , 15);
-    printf("%d\n", puerto.D.word);        
+
+    bitClr('B', 5);
+    bitSet('A' , 15);
+      
     return 0;
 }

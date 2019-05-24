@@ -56,67 +56,33 @@ typedef union {
         
 }PORTS;
 
+static int validate(char puerto, int bit);
+
 
 static PORTS puerto;
-
-void bitSet (void* puerto, int bit){
-    if ((bit < 0) || (bit >= 2*BYTE)){
-        printf("Ingrese un valor valido\n");
-        return;
-    }
-    char* byte = puerto;
-    char x;
-       
-    if (bit >= BYTE){
-        bit -= BYTE;
-        x = MASK1 << bit;
-        *(byte+1) = *(byte+1)| x;
-    }
-    else{
-        x = MASK1 << bit;
-        *byte = *byte | x;
-    }
+static uint8_t mask8;
+static uint16_t mask16;
     
-    return;    
-}
 
-void bitClr (char puerto, int bit){
-    if (bit < 0){
-        printf("El numero de bits no puede ser negativo\n");
+void bitSet (char port, int bit){
+    if (validate(port,bit))
         return;
-    }
-    char mask;
-    
-    switch (puerto) {
+
+    switch (port) {
         
         case 'A':
-            if (bit >= BYTE){
-                printf("Ingrese un numero entre 0 y 7 -A-\n");
-            }
-            else{
-                mask = ~(MASK1 << bit);
-                puerto.A.byte &= mask;
-            } 
+                mask8 = (MASK1 << bit);
+                puerto.A.byte |= mask8;
             break;
             
         case 'B': 
-            if (bit >= BYTE){
-                printf("Ingrese un numero entre 0 y 7 -B-\n");
-            }
-            else{
-                mask = ~(MASK1 << bit);
-                puerto.B.byte &= mask;
-            } 
+                mask8 = (MASK1 << bit);
+                puerto.B.byte |= mask8;
             break;
             
         case 'D':
-            if (bit >= 2*BYTE){
-                printf("Ingrese un numero entre 0 y 15 -D-\n");
-            }
-            else{
-                mask = ~(MASK1 << bit);
-                puerto.B.byte &= mask;
-            }
+                mask16 = (MASK1 << bit);
+                puerto.D.word |= mask16;
             break;
         
         default: 
@@ -124,4 +90,74 @@ void bitClr (char puerto, int bit){
             break;
     }
     return;
+}
+    
+
+
+void bitClr (char port, int bit){
+    if (validate(port,bit))
+        return;
+
+    switch (port) {
+        
+        case 'A':
+                mask8 = ~(MASK1 << bit);
+                puerto.A.byte &= mask8;
+            break;
+            
+        case 'B': 
+                mask8 = ~(MASK1 << bit);
+                puerto.B.byte &= mask8;
+            break;
+            
+        case 'D':
+                mask16 = ~(MASK1 << bit);
+                puerto.D.word &= mask16;
+            break;
+        
+        default: 
+            printf("Ingrese un puerto valido\n");
+            break;
+    }
+    return;
+}
+
+
+
+
+static int validate (char port, int bit){
+    if (bit < 0){
+        printf("El numero de bits no puede ser negativo\n");
+        return 1;
+    }
+    
+    switch (port) {
+        
+        case 'A':
+            if (bit >= BYTE){
+                printf("Ingrese un numero entre 0 y 7 -A-\n");
+                return 1;
+            } 
+            break;
+            
+        case 'B': 
+            if (bit >= BYTE){
+                printf("Ingrese un numero entre 0 y 7 -B-\n");
+                return 1;
+            } 
+            break;
+            
+        case 'D':
+            if (bit >= 2*BYTE){
+                printf("Ingrese un numero entre 0 y 15 -D-\n");
+                return 1;
+            }
+            break;
+        
+        default: 
+            printf("Ingrese un puerto valido\n");
+            return 1;
+            break;
+    }
+    return 0;
 }

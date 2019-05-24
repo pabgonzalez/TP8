@@ -36,8 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/funbits.o \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/validate.o
+	${OBJECTDIR}/main.o
 
 
 # C Compiler Flags
@@ -64,20 +63,15 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp9.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp9 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/funbits.o: funbits.c
+${OBJECTDIR}/funbits.o: funbits.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/funbits.o funbits.c
 
-${OBJECTDIR}/main.o: main.c
+${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
-
-${OBJECTDIR}/validate.o: validate.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -std=c99 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/validate.o validate.c
 
 # Subprojects
 .build-subprojects:
@@ -85,6 +79,7 @@ ${OBJECTDIR}/validate.o: validate.c
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tp9.exe
 
 # Subprojects
 .clean-subprojects:
