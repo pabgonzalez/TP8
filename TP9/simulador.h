@@ -9,6 +9,7 @@
 #define	SIMULADOR_H
 
 void simulate(void);
+void printLeds(void);
 
 #endif	/* SIMULADOR_H */
 

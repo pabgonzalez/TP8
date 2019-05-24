@@ -18,6 +18,10 @@
 #include "simulador.h"
 
 int main (void) {
+    maskOff('D', 0xFFFF);
+    printLeds();
+    maskOn('D', 0xFFFF);
+    printLeds();
     simulate();
     return 0;
 }

@@ -8,12 +8,14 @@
 #include "funbits.h"
 #include "simulador.h"
 
+#define BYTE 8
+
 enum states {INIT, NEG, TURNON, TURNOFF, QUIT, ERROR};
 
 static void turn_on(void);
 static void turn_off(void);
 static void negate(void);
-static void printLeds(void);
+void printLeds(void);
 static void cleanBuffer(void);
 
 void simulate(void){
@@ -36,6 +38,7 @@ void simulate(void){
         else{
             printf("Operacion Invalida\n");
         }
+        printLeds();
     }
     printf("Fin de la simulacion\n");
     cleanBuffer();
@@ -44,19 +47,37 @@ void simulate(void){
 
 static void turn_on(void){
     printf("Turn on!\n");
+    maskOn('A', 0xFF);
     return;
 }
 
 static void turn_off(void){
     printf("Turn off!\n");
+    maskOff('A', 0xFF);
     return;
 }
 static void negate(void){
     printf("Negate!\n");
+    maskToggle('A', 0xFF);
     return;
 }
-static void printLeds(void){
-    printf("Print Leds!\n");
+void printLeds(void){
+    int i;
+    printf("-----------------\n");
+    printf("|     PORTA     |\n");
+    printf("-----------------\n");
+    putchar('|');
+    for(i = 0; i < BYTE; i++){
+        if(bitGet('A', i)){
+            putchar('*');
+        }
+        else{
+            putchar(' ');
+        }
+        putchar('|');
+    }
+    putchar('\n');
+    printf("------------------\n");
     return;
 }
 

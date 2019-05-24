@@ -129,7 +129,7 @@ int bitGet(char port, int bit){
             break;
         default: printf("Ingrese un puerto valido\n");  break;
     }
-    
+    printf("%d\n", ans);
     return ans;
 }
 
@@ -179,6 +179,7 @@ void maskOn (char port, uint16_t mask) {
             printf("default\n");
             break;               
     }
+    printf("%d", puerto.D);
     return;
 }
 
