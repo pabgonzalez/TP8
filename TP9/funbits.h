@@ -14,8 +14,8 @@
 #ifndef FUNBITS_H
 #define FUNBITS_H
 
-void bitSet (void* puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 1.
-void bitClr (void* puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 0.
+void bitSet (char puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 1.
+void bitClr (char  puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 0.
 
 #endif /* FUNBITS_H */
 
