@@ -16,11 +16,14 @@
 #include <stdint.h>
 #include "funbits.h"
 
+
+
 int main (void) {
-    PORTS puerto;
-    puerto.D.port = 96;
-    puerto.B.b0 = 1;
-    bitClr(&(puerto.B), 0);
-    printf("%i", puerto.D.port);        
+    //puerto.D.port = 0x32;
+    puerto.B.byte = 32;
+    puerto.A.byte = 0;
+    bitClr(&(puerto.B), 5);
+    bitSet(&(puerto.A) , 15);
+    printf("%d\n", puerto.D.word);        
     return 0;
 }

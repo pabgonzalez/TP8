@@ -8,17 +8,67 @@
 #include <stdint.h>
 #include "funbits.h"
 
+#define MASK1       0x1
+#define BYTE    8
+
+typedef union{
+        struct {
+            uint8_t b0 :1;
+            uint8_t b1 :1;
+            uint8_t b2 :1;
+            uint8_t b3 :1;
+            uint8_t b4 :1;
+            uint8_t b5 :1;
+            uint8_t b6 :1;
+            uint8_t b7 :1;
+        };
+        uint8_t byte;
+    } PORT_8bit;
+    
+    typedef union{
+        struct {
+            uint16_t b0          :1;
+            uint16_t b1          :1;
+            uint16_t b2          :1;
+            uint16_t b3          :1;
+            uint16_t b4          :1;
+            uint16_t b5          :1;
+            uint16_t b6          :1;
+            uint16_t b7          :1;
+            uint16_t b8          :1;
+            uint16_t b9          :1;
+            uint16_t b10         :1;
+            uint16_t b11         :1;
+            uint16_t b12         :1;
+            uint16_t b13         :1;
+            uint16_t b14         :1;
+            uint16_t b15         :1;
+        };
+        uint16_t word;
+    } PORT_16bit;
+   
+typedef union {
+    struct {
+        PORT_8bit B;
+        PORT_8bit A;
+    };
+    PORT_16bit D;
+        
+}PORTS;
+
+
+static PORTS puerto;
 
 void bitSet (void* puerto, int bit){
-    if ((bit < 0) || (bit >= 2*MAX_BYTE)){
+    if ((bit < 0) || (bit >= 2*BYTE)){
         printf("Ingrese un valor valido\n");
         return;
     }
     char* byte = puerto;
     char x;
        
-    if (bit >= MAX_BYTE){
-        bit -= MAX_BYTE;
+    if (bit >= BYTE){
+        bit -= BYTE;
         x = MASK1 << bit;
         *(byte+1) = *(byte+1)| x;
     }
@@ -30,23 +80,48 @@ void bitSet (void* puerto, int bit){
     return;    
 }
 
-void bitClr (void* puerto, int bit){
-    if ((bit < 0) || (bit >= 2*MAX_BYTE)){
-        printf("Ingrese un valor valido\n");
+void bitClr (char puerto, int bit){
+    if (bit < 0){
+        printf("El numero de bits no puede ser negativo\n");
         return;
     }
-    char* byte = puerto;
-    char x;
-       
-    if (bit >= MAX_BYTE){
-        bit -= MAX_BYTE;
-        x = ~(MASK1 << bit);
-        *(byte+1) = *(byte+1)& x;
-    }
-    else{
-        x = ~(MASK1 << bit);
-        *byte = *byte & x;
-    }
+    char mask;
     
-    return;    
+    switch (puerto) {
+        
+        case 'A':
+            if (bit >= BYTE){
+                printf("Ingrese un numero entre 0 y 7 -A-\n");
+            }
+            else{
+                mask = ~(MASK1 << bit);
+                puerto.A.byte &= mask;
+            } 
+            break;
+            
+        case 'B': 
+            if (bit >= BYTE){
+                printf("Ingrese un numero entre 0 y 7 -B-\n");
+            }
+            else{
+                mask = ~(MASK1 << bit);
+                puerto.B.byte &= mask;
+            } 
+            break;
+            
+        case 'D':
+            if (bit >= 2*BYTE){
+                printf("Ingrese un numero entre 0 y 15 -D-\n");
+            }
+            else{
+                mask = ~(MASK1 << bit);
+                puerto.B.byte &= mask;
+            }
+            break;
+        
+        default: 
+            printf("Ingrese un puerto valido\n");
+            break;
+    }
+    return;
 }
