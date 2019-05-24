@@ -122,6 +122,33 @@ void bitClr (char port, int bit){
     return;
 }
 
+void bitToggle (char port, int bit){
+    if (validate(port,bit))
+        return;
+
+    switch (port) {
+        
+        case 'A':
+                mask8 = (MASK1 << bit);
+                puerto.A.byte ^= mask8;
+            break;
+            
+        case 'B': 
+                mask8 = (MASK1 << bit);
+                puerto.B.byte ^= mask8;
+            break;
+            
+        case 'D':
+                mask16 = (MASK1 << bit);
+                puerto.D.word ^= mask16;
+            break;
+        
+        default: 
+            printf("Ingrese un puerto valido\n");
+            break;
+    }
+    return;
+}
 
 
 
