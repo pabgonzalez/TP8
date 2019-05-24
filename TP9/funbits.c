@@ -109,8 +109,7 @@ void bitClr (char port, int bit){
 int bitGet(char port, int bit){
     int ans;
     if(validate(port, bit)){
-        ans = 0;
-        return ans;
+        return -1;
     }
     switch(port){
         case 'A':
