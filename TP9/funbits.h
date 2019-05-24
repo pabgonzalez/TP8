@@ -16,6 +16,12 @@
 
 void bitSet (char puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 1.
 void bitClr (char  puerto, int bit);        //Dado un puerto y un número de bit, lo setea en 0.
+int bitGet(char port, int bit);
+void bitToggle (char port, int bit);
+void maskOn (char port, uint16_t mask);
+void maskOff (char port, uint16_t mask);
+void maskToggle (char port, uint16_t mask);
+
 
 #endif /* FUNBITS_H */
 
