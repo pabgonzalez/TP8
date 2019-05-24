@@ -71,22 +71,22 @@ void bitSet (char port, int bit){
     switch (port) {
         
         case 'A':
-                mask8 = (MASK1 << bit);
-                puerto.A.byte |= mask8;
+            mask8 = (MASK1 << bit);
+            puerto.A.byte |= mask8;
             break;
             
         case 'B': 
-                mask8 = (MASK1 << bit);
-                puerto.B.byte |= mask8;
+            mask8 = (MASK1 << bit);
+            puerto.B.byte |= mask8;
             break;
             
         case 'D':
-                mask16 = (MASK1 << bit);
-                puerto.D.word |= mask16;
+            mask16 = (MASK1 << bit);
+            puerto.D.word |= mask16;
             break;
         
         default: 
-            printf("Ingrese un puerto valido\n");
+            printf("default\n");
             break;
     }
     return;
@@ -101,22 +101,22 @@ void bitClr (char port, int bit){
     switch (port) {
         
         case 'A':
-                mask8 = ~(MASK1 << bit);
-                puerto.A.byte &= mask8;
+            mask8 = ~(MASK1 << bit);
+            puerto.A.byte &= mask8;
             break;
             
         case 'B': 
-                mask8 = ~(MASK1 << bit);
-                puerto.B.byte &= mask8;
+            mask8 = ~(MASK1 << bit);
+            puerto.B.byte &= mask8;
             break;
             
         case 'D':
-                mask16 = ~(MASK1 << bit);
-                puerto.D.word &= mask16;
+            mask16 = ~(MASK1 << bit);
+            puerto.D.word &= mask16;
             break;
         
         default: 
-            printf("Ingrese un puerto valido\n");
+            printf("default\n");
             break;
     }
     return;
@@ -129,28 +129,89 @@ void bitToggle (char port, int bit){
     switch (port) {
         
         case 'A':
-                mask8 = (MASK1 << bit);
-                puerto.A.byte ^= mask8;
+            mask8 = (MASK1 << bit);
+            puerto.A.byte ^= mask8;
             break;
             
         case 'B': 
-                mask8 = (MASK1 << bit);
-                puerto.B.byte ^= mask8;
+            mask8 = (MASK1 << bit);
+            puerto.B.byte ^= mask8;
             break;
             
         case 'D':
-                mask16 = (MASK1 << bit);
-                puerto.D.word ^= mask16;
+            mask16 = (MASK1 << bit);
+            puerto.D.word ^= mask16;
             break;
         
         default: 
-            printf("Ingrese un puerto valido\n");
+            printf("default\n");
             break;
     }
     return;
 }
 
+void maskOn (char port, uint16_t mask) { 
+    if (validate_mask(port,mask))
+        return;
+    
+    switch (port) {
+        case 'A':
+            puerto.A.byte |= (uint8_t)mask;
+            break;
+        case 'B': 
+            puerto.B.byte |= (uint8_t)mask;
+            break;
+        case 'D':
+            puerto.D.word |= mask;
+            break;
+        default:
+            printf("default\n");
+            break;               
+    }
+    return;
+}
 
+void maskOff (char port, uint16_t mask) { 
+    if (validate_mask(port,mask))
+        return;
+    
+    switch (port) {
+        case 'A':
+            puerto.A.byte &= ~(uint8_t)mask;
+            break;
+        case 'B': 
+            puerto.B.byte &= ~(uint8_t)mask;
+            break;
+        case 'D':
+            puerto.D.word &= ~mask;
+            break;
+        default:
+            printf("default\n");
+            break;               
+    }
+    return;
+}
+
+void maskToggle (char port, uint16_t mask) { 
+    if (validate_mask(port,mask))
+        return;
+    
+    switch (port) {
+        case 'A':
+            puerto.A.byte ^= (uint8_t)mask;
+            break;
+        case 'B': 
+            puerto.B.byte ^= (uint8_t)mask;
+            break;
+        case 'D':
+            puerto.D.word ^= mask;
+            break;
+        default:
+            printf("default\n");
+            break;               
+    }
+    return;
+}
 
 static int validate (char port, int bit){
     if (bit < 0){
@@ -182,7 +243,7 @@ static int validate (char port, int bit){
             break;
         
         default: 
-            printf("Ingrese un puerto valido\n");
+            printf("default\n");
             return 1;
             break;
     }
