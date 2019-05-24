@@ -114,18 +114,15 @@ int bitGet(char port, int bit){
     switch(port){
         case 'A':
             mask8 = (MASK1 << bit);
-            puerto.A &= mask8;
-            ans = ((puerto.A)>> bit);
+            ans = ((puerto.A & mask8)>> bit);
             break;
         case 'B':
             mask8 = (MASK1 << bit);
-            puerto.B &= mask8;
-            ans = ((puerto.B)>> bit);
+            ans = ((puerto.B & mask8)>> bit);
             break;
         case 'D':
             mask16 = (MASK1 << bit);
-            puerto.D &= mask8;
-            ans = ((puerto.D)>> bit);
+            ans = ((puerto.D & mask8)>> bit);
             break;
         default: printf("Ingrese un puerto valido\n");  break;
     }
