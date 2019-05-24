@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "funbits.h"
+#include "simulador.h"
 
 enum states {INIT, NEG, TURNON, TURNOFF, QUIT, ERROR};
 
@@ -18,41 +19,23 @@ static void cleanBuffer(void);
 void simulate(void){
     char input = '0';
     int state = INIT;
-    while(state != QUIT){
-        switch(state){
-            case INIT:
-                input = getchar();
-                if(input == 'c'){
-                    state = TURNOFF;
-                }
-               else if(input == 's'){
-                    state = TURNON;
-                }
-                else if(input == 't'){
-                 state = NEG;
-                }
-                else if(input == 'q'){
-                    state = QUIT;
-                }
-                else{
-                    state = ERROR;
-                }
-                cleanBuffer();
-                break;
-            case TURNOFF:
-                turn_off();
-                break;
-            case TURNON:
-                turn_on();
-                break;
-            case NEG:
-                negate();
-                break;
-            case QUIT:
-                break;
-            default:    printf("Operacion invalida!\n");    break;
+    while((input = getchar())!= 'q'){
+        cleanBuffer();
+        if((input <= '7') && (input >= '0')){
+            bitToggle('A',(input - '0' ));
         }
-        printLeds();
+        else if(input == 'c'){
+            turn_off();
+        }
+        else if(input == 's'){
+            turn_on();
+        }
+        else if(input == 't'){
+            negate();
+        }
+        else{
+            printf("Operacion Invalida\n");
+        }
     }
     printf("Fin de la simulacion\n");
     cleanBuffer();
