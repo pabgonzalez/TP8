@@ -1,92 +1,74 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************************//**
+  @file     +funbits.c+
+  @brief    +Contiene funciones para el manejo de los puertos A, B y D+
+            +A y B son puertos de 8 bits mientras que D es de 16 bits (A y B juntos).
+  @author   +Grupo 2+
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include "funbits.h"
 
-#define MASK1       0x1
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+#define MASK1   0x1
 #define BYTE    8
 
-typedef union{
-        struct {
-            uint8_t b0 :1;
-            uint8_t b1 :1;
-            uint8_t b2 :1;
-            uint8_t b3 :1;
-            uint8_t b4 :1;
-            uint8_t b5 :1;
-            uint8_t b6 :1;
-            uint8_t b7 :1;
-        };
-        uint8_t byte;
-    } PORT_8bit;
-    
-    typedef union{
-        struct {
-            uint16_t b0          :1;
-            uint16_t b1          :1;
-            uint16_t b2          :1;
-            uint16_t b3          :1;
-            uint16_t b4          :1;
-            uint16_t b5          :1;
-            uint16_t b6          :1;
-            uint16_t b7          :1;
-            uint16_t b8          :1;
-            uint16_t b9          :1;
-            uint16_t b10         :1;
-            uint16_t b11         :1;
-            uint16_t b12         :1;
-            uint16_t b13         :1;
-            uint16_t b14         :1;
-            uint16_t b15         :1;
-        };
-        uint16_t word;
-    } PORT_16bit;
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
    
 typedef union {
     struct {
-        PORT_8bit B;
-        PORT_8bit A;
+        uint8_t B;
+        uint8_t A;
     };
-    PORT_16bit D;
-        
-}PORTS;
+    uint16_t D;       
+}PORT;
 
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 static int validate(char puerto, int bit);
-
 static int validateMask(char port, uint16_t mask);
 
-
-
-
-static PORTS puerto;
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+static PORT puerto;
 static uint8_t mask8;
 static uint16_t mask16;
     
-
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 void bitSet (char port, int bit){
-    if (validate(port,bit))
+    if (validate(port,bit))             //Sigue si la entrada es válida,                              
         return;
 
     switch (port) {
         
-        case 'A':
-            mask8 = (MASK1 << bit);
-            puerto.A.byte |= mask8;
+        case 'A':                       //Caso Puerto A                
+            mask8 = (MASK1 << bit);     //Crea una máscara que solo tiene un 1 en la posición recibida.
+            puerto.A |= mask8;     //
             break;
             
         case 'B': 
             mask8 = (MASK1 << bit);
-            puerto.B.byte |= mask8;
+            puerto.B |= mask8;
             break;
             
         case 'D':
             mask16 = (MASK1 << bit);
-            puerto.D.word |= mask16;
+            puerto.D |= mask16;
             break;
         
         default: 
@@ -96,8 +78,6 @@ void bitSet (char port, int bit){
     return;
 }
     
-
-
 void bitClr (char port, int bit){
     if (validate(port,bit))
         return;
@@ -106,17 +86,17 @@ void bitClr (char port, int bit){
         
         case 'A':
             mask8 = ~(MASK1 << bit);
-            puerto.A.byte &= mask8;
+            puerto.A &= mask8;
             break;
             
         case 'B': 
             mask8 = ~(MASK1 << bit);
-            puerto.B.byte &= mask8;
+            puerto.B &= mask8;
             break;
             
         case 'D':
             mask16 = ~(MASK1 << bit);
-            puerto.D.word &= mask16;
+            puerto.D &= mask16;
             break;
         
         default: 
@@ -135,18 +115,18 @@ int bitGet(char port, int bit){
     switch(port){
         case 'A':
             mask8 = (MASK1 << bit);
-            puerto.A.byte &= mask8;
-            ans = ((puerto.A.byte)>> bit);
+            puerto.A &= mask8;
+            ans = ((puerto.A)>> bit);
             break;
         case 'B':
             mask8 = (MASK1 << bit);
-            puerto.B.byte &= mask8;
-            ans = ((puerto.B.byte)>> bit);
+            puerto.B &= mask8;
+            ans = ((puerto.B)>> bit);
             break;
         case 'D':
             mask16 = (MASK1 << bit);
-            puerto.D.word &= mask8;
-            ans = ((puerto.D.word)>> bit);
+            puerto.D &= mask8;
+            ans = ((puerto.D)>> bit);
             break;
         default: printf("Ingrese un puerto valido\n");  break;
     }
@@ -162,17 +142,17 @@ void bitToggle (char port, int bit){
         
         case 'A':
             mask8 = (MASK1 << bit);
-            puerto.A.byte ^= mask8;
+            puerto.A ^= mask8;
             break;
             
         case 'B': 
             mask8 = (MASK1 << bit);
-            puerto.B.byte ^= mask8;
+            puerto.B ^= mask8;
             break;
             
         case 'D':
             mask16 = (MASK1 << bit);
-            puerto.D.word ^= mask16;
+            puerto.D ^= mask16;
             break;
         
         default: 
@@ -188,13 +168,13 @@ void maskOn (char port, uint16_t mask) {
     
     switch (port) {
         case 'A':
-            puerto.A.byte |= (uint8_t)mask;
+            puerto.A |= (uint8_t)mask;
             break;
         case 'B': 
-            puerto.B.byte |= (uint8_t)mask;
+            puerto.B |= (uint8_t)mask;
             break;
         case 'D':
-            puerto.D.word |= mask;
+            puerto.D |= mask;
             break;
         default:
             printf("default\n");
@@ -209,13 +189,13 @@ void maskOff (char port, uint16_t mask) {
     
     switch (port) {
         case 'A':
-            puerto.A.byte &= ~(uint8_t)mask;
+            puerto.A &= ~(uint8_t)mask;
             break;
         case 'B': 
-            puerto.B.byte &= ~(uint8_t)mask;
+            puerto.B &= ~(uint8_t)mask;
             break;
         case 'D':
-            puerto.D.word &= ~mask;
+            puerto.D &= ~mask;
             break;
         default:
             printf("default\n");
@@ -230,13 +210,13 @@ void maskToggle (char port, uint16_t mask) {
     
     switch (port) {
         case 'A':
-            puerto.A.byte ^= (uint8_t)mask;
+            puerto.A ^= (uint8_t)mask;
             break;
         case 'B': 
-            puerto.B.byte ^= (uint8_t)mask;
+            puerto.B ^= (uint8_t)mask;
             break;
         case 'D':
-            puerto.D.word ^= mask;
+            puerto.D ^= mask;
             break;
         default:
             printf("default\n");
@@ -245,6 +225,15 @@ void maskToggle (char port, uint16_t mask) {
     return;
 }
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+/* validate:    recibe un puerto y un bit. verifica la validez del número de bit 
+                para ese puerto. Devuelve un 0 si es valido y un 1 sino. 
+ */
 static int validate (char port, int bit){
     if (bit < 0){
         printf("El numero de bits no puede ser negativo\n");
@@ -282,8 +271,10 @@ static int validate (char port, int bit){
     return 0;
 }
 
-
-
+/* validateMask:    recibe un puerto y una máscara de 16 bits. Valida que el 
+ *                  tamaño la máscara sea compatible con ese puerto. 
+ *                  Devuelve un 0 si lo es y un 1 sino.
+ */
 static int validateMask(char port, uint16_t mask){
     
     switch (port) {
@@ -306,9 +297,12 @@ static int validateMask(char port, uint16_t mask){
             break;
         
         default: 
-            printf("Ingrese un puerto valido\n");
+            printf("default\n");
             return 1;
             break;
     }
     return 0;
 }
+
+/*******************************************************************************
+ ******************************************************************************/
