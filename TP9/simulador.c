@@ -97,10 +97,10 @@ static void printLeds(void){
     putchar('|');
     for(i = 0; i < BYTE; i++){                     //Imprime el estado de cada led.
         if(bitGet('A', i)){                        
-            putchar(ON);                            
+            putchar(ON);                           //Si es 1, imprime un '*' 
         }
         else{
-            putchar(OFF);                       
+            putchar(OFF);                          //Si es 0, imprime un ' '
         }
         putchar('|');
     }
