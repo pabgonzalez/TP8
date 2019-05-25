@@ -1,7 +1,8 @@
 /***************************************************************************//**
-  @file     +Nombre del archivo (ej: template.h)+
-  @brief    +Descripcion del archivo+
-  @author   +Nombre del autor (ej: Salvador Allende)+
+  @file     +funbits.h+
+  @brief    +Contiene funciones para el manejo de los puertos A, B y D+
+            +A y B son puertos de 8 bits mientras que D es de 16 bits (A y B juntos).
+  @author   +Grupo 2: Alejo Figueroa, Olivia de Vincenti, Pablo Gonzalez+
  ******************************************************************************/
 
 #ifndef FUNBITS_H
