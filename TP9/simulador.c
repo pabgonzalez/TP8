@@ -35,6 +35,9 @@ static void cleanBuffer(void);
  ******************************************************************************/
 void simulate(void){
     char input = 0;
+    printf("Simulador de Leds.\nNumero 0-7: cambia el estado de ese led.\n"
+            "s: enciende todos los leds.\nc: apaga todos los leds.\nt: cambia el"
+            "estado de todos los leds.\n");
     while((input = getchar())!= 'q'){           //mientras el usuario no ingrese 'q'
         cleanBuffer();                          //se reinicia el buffer.
         if((input <= '7') && (input >= '0')){   //Si se ingrsa un número entre 0 y 7, ese led cambia de estado.
