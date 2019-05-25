@@ -77,7 +77,7 @@ void printLeds(void){
         putchar('|');
     }
     putchar('\n');
-    printf("------------------\n");
+    printf("-----------------\n");
     return;
 }
 
